@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>meowsits | mindful moments</title>
+  <title>meowsits | mindful growth</title>
   <style>
     /* Color Palette & Base Styles */
     :root {
-      --bg-color: #F4F1EA;
-      --circle-light: #b9c4a5;
-      --circle-dark: #8F9779;
-      --text-color: #5A5A5A;
+      --bg-color: #F4F1EA; /* Warm Linen */
+      --blossom-light: #F8F5F0; /* Lighter linen for blossom background */
+      --line-color: #5A5A5A; /* Soft Dark Gray */
+      --matcha-accent: #8F9779; /* Soft Matcha Green */
     }
 
     body {
@@ -18,7 +18,7 @@
       padding: 0;
       height: 100vh;
       background-color: var(--bg-color);
-      color: var(--text-color);
+      color: var(--line-color);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       flex-direction: column;
@@ -31,80 +31,119 @@
     h1 {
       font-weight: 300;
       letter-spacing: 4px;
-      margin-bottom: 40px;
-      color: var(--circle-dark);
+      margin-bottom: 20px;
+      color: var(--matcha-accent);
     }
 
-    /* The Breathing Cat Container */
-    .zen-container {
+    /* The Main Interactive Container */
+    .zen-growth-container {
       position: relative;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--circle-light) 0%, var(--circle-dark) 100%);
+      width: 350px;
+      height: 350px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 5rem;
       cursor: pointer;
-      box-shadow: 0 10px 30px rgba(143, 151, 121, 0.2);
-      /* The 8-second breathing animation */
-      animation: breathe 8s infinite ease-in-out;
-      transition: box-shadow 0.3s ease;
       user-select: none;
     }
 
-    .zen-container:hover {
-      box-shadow: 0 15px 40px rgba(143, 151, 121, 0.4);
+    /* 1. The Cat Image (from your source) */
+    .cat-meditating {
+      position: absolute;
+      width: 200px; /* Adjust size as needed */
+      height: auto;
+      z-index: 10; /* Keeps cat on top of the tree growth */
+      /* Breathing animation applied to the cat itself */
+      animation: breatheCat 8s infinite ease-in-out;
     }
 
-    /* Breathing Keyframes */
-    @keyframes breathe {
-      0% { transform: scale(0.85); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(0.85); }
+    /* 2. The Growing/Blossoming Tree Layer */
+    .tree-blossom-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,80 C40,60 20,50 20,30 A5,5 0 0,1 30,30 C30,50 45,55 50,70 C55,55 70,50 70,30 A5,5 0 0,1 80,30 C80,50 60,60 50,80 Z" stroke="%238F9779" stroke-width="1" fill="none"/></svg>');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.2; /* Subtle background start */
+      transform: scale(0.8);
+      z-index: 5;
+      /* Growth/Blossom animation synchronized with breath */
+      animation: bloomTree 8s infinite ease-in-out;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Interactive state for the tree layer */
+    .zen-growth-container:hover .tree-blossom-layer {
+      opacity: 0.5;
+    }
+
+    /* Keyframes for Cat Breathing (gentle scale/pulse) */
+    @keyframes breatheCat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); opacity: 0.9; }
+    }
+
+    /* Keyframes for Tree Blooming (synchronized growth) */
+    @keyframes bloomTree {
+      0%, 100% { transform: scale(0.8); opacity: 0.2; }
+      50% { transform: scale(1.1); opacity: 0.8; } /* Peak inhale, maximum bloom */
+    }
+
+    /* Growth/Bloom Flash Animation for Click */
+    @keyframes bloomFlash {
+      0% { transform: scale(1.1); opacity: 0.8; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(1.1); opacity: 0.8; }
     }
 
     /* Typography for instructions and quotes */
     .instructions {
-      margin-top: 50px;
+      margin-top: 30px;
       font-size: 0.9rem;
       letter-spacing: 1px;
-      opacity: 0.5;
+      opacity: 0.6;
+      text-align: center;
     }
 
     .quote-box {
       margin-top: 20px;
       padding: 0 20px;
-      max-width: 450px;
+      max-width: 500px;
       text-align: center;
       font-style: italic;
       font-size: 1.1rem;
       line-height: 1.5;
       height: 60px;
-      opacity: 0.8;
+      opacity: 0.9;
       transition: opacity 0.6s ease;
     }
+
   </style>
 </head>
 <body>
 
   <h1>meowsits.</h1>
 
-  <div class="zen-container" id="zenCat" title="Tap for a new purr-spective">
-    🧘🐾
+  <div class="zen-growth-container" id="mainInteractive" title="Tap to nurture your perspective">
+    <div class="tree-blossom-layer" id="treeLayer"></div>
+    
+    <img src="zen_cat_lineart.png" alt="Meditating Cat Lineart" class="cat-meditating" id="zenCatImage">
   </div>
 
-  <div class="instructions">Match your breathing to the circle. Tap the cat for guidance.</div>
+  <div class="instructions">Match your breath to the growing blossoms.<br>Tap the cat for guidance.</div>
   
   <div class="quote-box" id="quoteDisplay">"The peaceful observer misses nothing."</div>
 
   <script>
-    // Array of soothing, cat-themed mindfulness quotes
+    // Array of soothing, growth and mindfulness quotes
     const quotes = [
       "Breathe in the calm, exhale the hairballs.",
       "Find your sunbeam and rest deeply within it.",
       "Notice the stillness that exists between the purrs.",
+      "Like a seedling reaching for the light, your mindfulness grows.",
+      "You are a quiet garden. Tend to yourself with patience.",
       "Even the fiercest tiger must pause to wash its paws.",
       "Let your worries drift away like a laser pointer on the wall.",
       "Stretch your body fully, then let everything go.",
@@ -112,11 +151,22 @@
       "The peaceful observer misses nothing."
     ];
 
-    const zenCat = document.getElementById('zenCat');
+    const mainContainer = document.getElementById('mainInteractive');
+    const treeLayer = document.getElementById('treeLayer');
     const quoteDisplay = document.getElementById('quoteDisplay');
 
     // Interactive event listener
-    zenCat.addEventListener('click', () => {
+    mainContainer.addEventListener('click', () => {
+      // 1. Trigger the Blossom Flash interaction
+      // Temporarily switch the animation to the flash
+      treeLayer.style.animation = 'bloomFlash 0.6s ease-out';
+      
+      // Reset the animation back to the breathing cycle after the flash
+      setTimeout(() => {
+          treeLayer.style.animation = 'bloomTree 8s infinite ease-in-out';
+      }, 600); // 600ms matches bloomFlash duration
+
+      // 2. Change the Quote interaction
       // Fade out current quote
       quoteDisplay.style.opacity = 0;
       
@@ -124,7 +174,7 @@
       setTimeout(() => {
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
         quoteDisplay.textContent = `"${randomQuote}"`;
-        quoteDisplay.style.opacity = 0.8;
+        quoteDisplay.style.opacity = 0.9;
       }, 600); // 600ms matches the CSS transition time
     });
   </script>
