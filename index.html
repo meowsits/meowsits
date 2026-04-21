@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>meowsits | mindful moments</title>
+  <style>
+    /* Color Palette & Base Styles */
+    :root {
+      --bg-color: #F4F1EA;
+      --circle-light: #b9c4a5;
+      --circle-dark: #8F9779;
+      --text-color: #5A5A5A;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Minimalist Header */
+    h1 {
+      font-weight: 300;
+      letter-spacing: 4px;
+      margin-bottom: 40px;
+      color: var(--circle-dark);
+    }
+
+    /* The Breathing Cat Container */
+    .zen-container {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--circle-light) 0%, var(--circle-dark) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(143, 151, 121, 0.2);
+      /* The 8-second breathing animation */
+      animation: breathe 8s infinite ease-in-out;
+      transition: box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    .zen-container:hover {
+      box-shadow: 0 15px 40px rgba(143, 151, 121, 0.4);
+    }
+
+    /* Breathing Keyframes */
+    @keyframes breathe {
+      0% { transform: scale(0.85); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(0.85); }
+    }
+
+    /* Typography for instructions and quotes */
+    .instructions {
+      margin-top: 50px;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      opacity: 0.5;
+    }
+
+    .quote-box {
+      margin-top: 20px;
+      padding: 0 20px;
+      max-width: 450px;
+      text-align: center;
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      height: 60px;
+      opacity: 0.8;
+      transition: opacity 0.6s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>meowsits.</h1>
+
+  <div class="zen-container" id="zenCat" title="Tap for a new purr-spective">
+    🧘🐾
+  </div>
+
+  <div class="instructions">Match your breathing to the circle. Tap the cat for guidance.</div>
+  
+  <div class="quote-box" id="quoteDisplay">"The peaceful observer misses nothing."</div>
+
+  <script>
+    // Array of soothing, cat-themed mindfulness quotes
+    const quotes = [
+      "Breathe in the calm, exhale the hairballs.",
+      "Find your sunbeam and rest deeply within it.",
+      "Notice the stillness that exists between the purrs.",
+      "Even the fiercest tiger must pause to wash its paws.",
+      "Let your worries drift away like a laser pointer on the wall.",
+      "Stretch your body fully, then let everything go.",
+      "You do not need to catch every mouse you see.",
+      "The peaceful observer misses nothing."
+    ];
+
+    const zenCat = document.getElementById('zenCat');
+    const quoteDisplay = document.getElementById('quoteDisplay');
+
+    // Interactive event listener
+    zenCat.addEventListener('click', () => {
+      // Fade out current quote
+      quoteDisplay.style.opacity = 0;
+      
+      // Wait for fade out, change text, then fade back in
+      setTimeout(() => {
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        quoteDisplay.textContent = `"${randomQuote}"`;
+        quoteDisplay.style.opacity = 0.8;
+      }, 600); // 600ms matches the CSS transition time
+    });
+  </script>
+
+</body>
+</html>
