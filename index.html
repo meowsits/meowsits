@@ -1,3 +1,11 @@
+I completely understand. Sometimes math-generated code can take things a bit too literally, and a harsh "V" shape is definitely not the organic, flowing zen tree we are looking for!
+
+Let's completely replace that old design. I have written a new, elegant SVG tree with winding branches and little blossom clusters. I have also separated the meditating cat so it sits peacefully right on top of your instruction text, acting as a grounding guide at the bottom of the screen.
+
+Here is your freshly pruned and redesigned index.html.
+
+Your Updated Code (index.html)
+HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +18,7 @@
       --bg-color: #F4F1EA; /* Warm Linen */
       --line-color: #5A5A5A; /* Soft Dark Gray */
       --matcha-accent: #8F9779; /* Soft Matcha Green */
+      --blossom-accent: #C1A5A9; /* Soft Dusty Rose for contrast */
     }
 
     body {
@@ -24,92 +33,83 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      cursor: pointer; /* Makes the whole page feel interactive */
+      user-select: none;
     }
 
     /* Minimalist Header */
     h1 {
       font-weight: 300;
       letter-spacing: 4px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       color: var(--matcha-accent);
     }
 
-    /* The Main Interactive Container */
-    .zen-growth-container {
+    /* The New Elegant Tree Container */
+    .zen-tree-container {
       position: relative;
-      width: 350px;
-      height: 350px;
+      width: 280px;
+      height: 280px;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      user-select: none;
+      margin-bottom: 20px;
     }
 
-    /* 1. The Code-Drawn Cat (SVG) */
-    .cat-meditating {
-      position: absolute;
-      width: 180px; 
-      height: 180px;
-      z-index: 10;
-      color: var(--line-color); /* SVG uses this color for the strokes */
-      /* Breathing animation applied to the cat itself */
-      animation: breatheCat 8s infinite ease-in-out;
-    }
-
-    /* 2. The Growing/Blossoming Tree Layer */
-    .tree-blossom-layer {
-      position: absolute;
+    .zen-tree {
       width: 100%;
       height: 100%;
-      /* Code-drawn minimalist tree branches */
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,85 C40,60 15,50 15,30 A5,5 0 0,1 25,30 C25,50 45,60 50,75 C55,60 75,50 75,30 A5,5 0 0,1 85,30 C85,50 60,60 50,85 Z" stroke="%238F9779" stroke-width="1" fill="none"/></svg>');
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.2; 
-      transform: scale(0.8);
-      z-index: 5;
-      /* Growth/Blossom animation synchronized with breath */
-      animation: bloomTree 8s infinite ease-in-out;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      color: var(--line-color);
     }
 
-    /* Interactive state for the tree layer */
-    .zen-growth-container:hover .tree-blossom-layer {
-      opacity: 0.5;
+    /* The breathing blossoms */
+    .blossoms {
+      transform-origin: center;
+      /* 8-second synchronized breathing growth */
+      animation: blossomBreathe 8s infinite ease-in-out;
+      transition: transform 0.6s ease-out, opacity 0.6s ease-out;
     }
 
-    /* Keyframes for Cat Breathing (gentle scale/pulse) */
-    @keyframes breatheCat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); opacity: 0.9; }
+    @keyframes blossomBreathe {
+      0%, 100% { transform: scale(0.85); opacity: 0.5; }
+      50% { transform: scale(1.15); opacity: 0.9; } /* Peak inhale */
     }
 
-    /* Keyframes for Tree Blooming (synchronized growth) */
-    @keyframes bloomTree {
-      0%, 100% { transform: scale(0.8); opacity: 0.2; }
-      50% { transform: scale(1.1); opacity: 0.8; } /* Peak inhale, maximum bloom */
+    /* Container for Cat sitting on Text */
+    .guide-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
     }
 
-    /* Growth/Bloom Flash Animation for Click */
-    @keyframes bloomFlash {
-      0% { transform: scale(1.1); opacity: 0.8; }
-      50% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(1.1); opacity: 0.8; }
+    /* Smaller, repositioned cat */
+    .cat-sitting-small {
+      width: 90px; 
+      height: 90px;
+      color: var(--line-color);
+      margin-bottom: -5px; /* Pulls the cat closer to the text below it */
+      /* Gentle idle sway for the cat */
+      animation: gentleSway 8s infinite ease-in-out;
+    }
+
+    @keyframes gentleSway {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
     }
 
     /* Typography for instructions and quotes */
     .instructions {
-      margin-top: 30px;
       font-size: 0.9rem;
       letter-spacing: 1px;
       opacity: 0.6;
       text-align: center;
+      margin: 0;
+      line-height: 1.4;
     }
 
     .quote-box {
-      margin-top: 20px;
+      margin-top: 30px;
       padding: 0 20px;
       max-width: 500px;
       text-align: center;
@@ -123,31 +123,58 @@
 
   </style>
 </head>
-<body>
+<body id="mainInteractive" title="Tap anywhere to nurture your perspective">
 
   <h1>meowsits.</h1>
 
-  <div class="zen-growth-container" id="mainInteractive" title="Tap to nurture your perspective">
-    <div class="tree-blossom-layer" id="treeLayer"></div>
-    
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="cat-meditating" id="zenCatImage">
-      <circle cx="100" cy="70" r="35" fill="none" stroke="currentColor" stroke-width="2.5"/>
-      <path d="M 72 48 L 65 15 L 90 40 M 128 48 L 135 15 L 110 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-      <path d="M 80 68 Q 88 75 95 68 M 105 68 Q 112 75 120 68" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M 98 80 L 102 80 L 100 83 Z" fill="currentColor"/>
-      <path d="M 100 83 Q 95 88 90 85 M 100 83 Q 105 88 110 85" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M 60 70 L 40 65 M 60 75 L 35 75 M 60 80 L 40 85 M 140 70 L 160 65 M 140 75 L 165 75 M 140 80 L 160 85" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M 80 102 C 50 115 35 155 50 165 C 65 175 135 175 150 165 C 165 155 150 115 120 102" fill="none" stroke="currentColor" stroke-width="2.5"/>
-      <path d="M 75 100 L 100 135 L 125 100 M 90 120 L 110 145" fill="none" stroke="currentColor" stroke-width="2"/>
-      <path d="M 85 102 C 75 130 95 145 100 145 C 105 145 125 130 115 102" fill="none" stroke="currentColor" stroke-width="2"/>
-      <path d="M 100 145 Q 90 165 100 175 Q 110 165 100 145" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
-      <path d="M 100 175 L 97 185 M 100 175 L 100 187 M 100 175 L 103 185" fill="none" stroke="currentColor" stroke-width="1"/>
-      <ellipse cx="100" cy="170" rx="60" ry="8" fill="none" stroke="var(--matcha-accent)" stroke-width="1" opacity="0.5"/>
-      <ellipse cx="100" cy="172" rx="80" ry="12" fill="none" stroke="var(--matcha-accent)" stroke-width="0.5" opacity="0.3"/>
+  <div class="zen-tree-container">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="zen-tree">
+      <path d="M 100 190 C 100 150 85 130 100 90 M 95 115 C 65 100 50 110 35 90 M 98 95 C 130 85 145 95 160 70 M 100 90 C 85 70 75 55 60 45 M 100 90 C 120 70 135 60 155 45 M 138 82 C 160 100 170 95 185 85" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      
+      <g class="blossoms" fill="var(--blossom-accent)" id="treeBlossoms">
+        <circle cx="35" cy="90" r="7"/>
+        <circle cx="25" cy="85" r="4"/>
+        <circle cx="45" cy="80" r="5"/>
+        <circle cx="60" cy="45" r="8"/>
+        <circle cx="50" cy="40" r="4"/>
+        <circle cx="70" cy="35" r="6"/>
+        
+        <circle cx="160" cy="70" r="7"/>
+        <circle cx="170" cy="65" r="4"/>
+        <circle cx="150" cy="60" r="5"/>
+        <circle cx="155" cy="45" r="8"/>
+        <circle cx="145" cy="35" r="5"/>
+        <circle cx="165" cy="35" r="6"/>
+        <circle cx="185" cy="85" r="6"/>
+        <circle cx="195" cy="80" r="3"/>
+
+        <circle cx="100" cy="90" r="8"/>
+        <circle cx="90" cy="80" r="5"/>
+        <circle cx="110" cy="80" r="6"/>
+        <circle cx="100" cy="30" r="5"/>
+        <circle cx="90" cy="40" r="4"/>
+      </g>
     </svg>
   </div>
 
-  <div class="instructions">Match your breath to the growing blossoms.<br>Tap the cat for guidance.</div>
+  <div class="guide-section">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="cat-sitting-small">
+      <circle cx="100" cy="70" r="35" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M 72 48 L 65 15 L 90 40 M 128 48 L 135 15 L 110 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M 80 68 Q 88 75 95 68 M 105 68 Q 112 75 120 68" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M 98 80 L 102 80 L 100 83 Z" fill="currentColor"/>
+      <path d="M 100 83 Q 95 88 90 85 M 100 83 Q 105 88 110 85" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M 60 70 L 40 65 M 60 75 L 35 75 M 60 80 L 40 85 M 140 70 L 160 65 M 140 75 L 165 75 M 140 80 L 160 85" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M 80 102 C 50 115 35 155 50 165 C 65 175 135 175 150 165 C 165 155 150 115 120 102" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M 75 100 L 100 135 L 125 100 M 90 120 L 110 145" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <path d="M 85 102 C 75 130 95 145 100 145 C 105 145 125 130 115 102" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <path d="M 100 145 Q 90 165 100 175 Q 110 165 100 145" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+      <path d="M 100 175 L 97 185 M 100 175 L 100 187 M 100 175 L 103 185" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <ellipse cx="100" cy="172" rx="60" ry="8" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+    </svg>
+    
+    <div class="instructions">Match your breath to the growing blossoms.<br>Tap anywhere for guidance.</div>
+  </div>
   
   <div class="quote-box" id="quoteDisplay">"The peaceful observer misses nothing."</div>
 
@@ -165,20 +192,23 @@
       "The peaceful observer misses nothing."
     ];
 
-    const mainContainer = document.getElementById('mainInteractive');
-    const treeLayer = document.getElementById('treeLayer');
+    const mainInteractive = document.getElementById('mainInteractive');
+    const treeBlossoms = document.getElementById('treeBlossoms');
     const quoteDisplay = document.getElementById('quoteDisplay');
 
-    // Interactive event listener
-    mainContainer.addEventListener('click', () => {
-      // 1. Trigger the Blossom Flash interaction
-      treeLayer.style.animation = 'bloomFlash 0.6s ease-out';
+    // Clicking anywhere on the screen triggers the interaction
+    mainInteractive.addEventListener('click', () => {
+      // 1. Temporarily pause the breathing and "flash" scale the blossoms
+      treeBlossoms.style.animation = 'none';
+      treeBlossoms.style.transform = 'scale(1.3)';
+      treeBlossoms.style.opacity = '1';
       
+      // Resume the slow breathing cycle after a moment
       setTimeout(() => {
-          treeLayer.style.animation = 'bloomTree 8s infinite ease-in-out';
+          treeBlossoms.style.animation = 'blossomBreathe 8s infinite ease-in-out';
       }, 600);
 
-      // 2. Change the Quote interaction
+      // 2. Change the Quote
       quoteDisplay.style.opacity = 0;
       
       setTimeout(() => {
