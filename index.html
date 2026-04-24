@@ -1,221 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>meowsits | mindful moments</title>
-  <style>
-    /* Color Palette & Base Styles */
-    :root {
-      --bg-color: #F4F1EA; 
-      --line-color: #5A5A5A; 
-      --matcha-accent: #8F9779; 
-      --blossom-accent: #C1A5A9; 
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>meowsits | mindful mist</title>
+    <style>
+        :root {
+            --mist-deep: #cfd8d2;
+            --mist-light: #f4f1ea;
+            --text-color: #555;
+            --accent: #8F9779;
+        }
 
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-color: var(--bg-color);
-      color: var(--line-color);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      cursor: pointer; 
-      user-select: none;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* Minimalist Header */
-    h1 {
-      font-weight: 300;
-      letter-spacing: 4px;
-      margin-bottom: 5px;
-      color: var(--matcha-accent);
-    }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: var(--mist-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+        }
 
-    /* The New Organic Bonsai Tree Container */
-    .zen-tree-container {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
+        /* Animated Surreal Background */
+        .mist-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, var(--mist-light), var(--mist-deep));
+            background-size: 200% 200%;
+            animation: driftMist 20s infinite alternate ease-in-out;
+            z-index: -2;
+            transition: opacity 0.5s ease;
+        }
 
-    .zen-tree {
-      width: 100%;
-      height: 100%;
-      color: var(--line-color);
-    }
+        @keyframes driftMist {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
 
-    /* The breathing blossoms */
-    .blossoms {
-      transform-origin: center;
-      /* 8-second synchronized breathing growth */
-      animation: blossomBreathe 8s infinite ease-in-out;
-      transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-    }
+        /* Subtle Glow behind the cat */
+        .cat-aura {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: white;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: -1;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
 
-    @keyframes blossomBreathe {
-      0%, 100% { transform: scale(0.9); opacity: 0.6; }
-      50% { transform: scale(1.15); opacity: 1; } /* Peak inhale */
-    }
+        /* Audio Toggle (Upper Left) */
+        .audio-toggle {
+            position: fixed;
+            top: 30px; 
+            left: 30px;
+            z-index: 100;
+            cursor: pointer;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            user-select: none;
+        }
 
-    /* Container for Cat sitting on Text */
-    .guide-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 10;
-    }
+        .audio-toggle:hover {
+            opacity: 1;
+        }
 
-    /* Smaller, repositioned cat */
-    .cat-sitting-small {
-      width: 80px; 
-      height: 80px;
-      color: var(--line-color);
-      margin-bottom: -10px; 
-      /* Gentle idle sway for the cat */
-      animation: gentleSway 8s infinite ease-in-out;
-    }
+        /* Visual Menu Hint (Upper Right) */
+        .menu-btn {
+            position: fixed;
+            top: 30px; 
+            right: 30px;
+            z-index: 80; /* Sits below the sliding menu so it gets covered gracefully */
+            cursor: pointer;
+            padding: 10px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
 
-    @keyframes gentleSway {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
+        .menu-btn:hover {
+            opacity: 1;
+        }
 
-    /* Typography for instructions and quotes */
-    .instructions {
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      opacity: 0.6;
-      text-align: center;
-      margin: 0;
-      line-height: 1.5;
-    }
+        .bar { 
+            width: 25px; 
+            height: 2px; 
+            background: var(--text-color); 
+            margin: 5px 0; 
+            border-radius: 2px;
+        }
 
-    .quote-box {
-      margin-top: 25px;
-      padding: 0 20px;
-      max-width: 500px;
-      text-align: center;
-      font-style: italic;
-      font-size: 1.1rem;
-      line-height: 1.5;
-      height: 60px;
-      opacity: 0.9;
-      transition: opacity 0.6s ease;
-    }
-  </style>
+        /* The Interactive Menu (Right side) */
+        .side-nav {
+            position: fixed;
+            top: 0; right: -300px;
+            width: 280px; height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px);
+            z-index: 90; /* Higher than the menu button */
+            display: flex;
+            flex-direction: column;
+            padding: 100px 40px;
+            transition: right 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.02);
+        }
+        
+        .side-nav.active { right: 0; }
+        
+        .side-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin: 15px 0;
+            letter-spacing: 2px;
+            transition: 0.3s ease;
+            opacity: 0.6;
+        }
+        
+        .side-nav a:hover { color: var(--accent); opacity: 1; padding-left: 4px; }
+
+        /* Central Stage */
+        .stage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .main-cat {
+            width: 240px;
+            height: auto;
+            mix-blend-mode: multiply;
+            z-index: 10;
+            animation: floatMain 8s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes floatMain {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Text Elements */
+        .ui-overlay {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        h1 { font-weight: 200; letter-spacing: 12px; margin-bottom: 20px; font-size: 2rem; opacity: 0.8; }
+        
+        .quote-container {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quote { 
+            font-style: italic; 
+            opacity: 0; 
+            max-width: 400px; 
+            line-height: 1.6;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .quote.visible { opacity: 0.6; }
+
+    </style>
 </head>
-<body id="mainInteractive" title="Tap anywhere to nurture your perspective">
+<body>
 
-  <h1>meowsits.</h1>
+    <div class="mist-bg" id="mistBg"></div>
 
-  <div class="zen-tree-container">
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="zen-tree">
-      
-      <path d="M 100 200 C 110 160, 70 130, 95 100 C 110 80, 130 90, 140 60" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
-      
-      <path d="M 90 115 C 65 125, 45 110, 25 115" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-      
-      <path d="M 115 85 C 140 75, 165 85, 185 70" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-      
-      <path d="M 105 90 C 85 80, 75 90, 55 75" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <audio id="purrAudio" loop>
+        <source src="purr.mp3" type="audio/mpeg">
+    </audio>
 
-      <path d="M 130 75 C 145 60, 155 65, 165 50" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      
-      <g class="blossoms" fill="var(--blossom-accent)" id="treeBlossoms">
-        <circle cx="25" cy="115" r="7"/>
-        <circle cx="15" cy="110" r="4"/>
-        <circle cx="35" cy="105" r="5"/>
-        <circle cx="45" cy="115" r="6"/>
+    <div class="audio-toggle" id="audioBtn">
+        <span id="audioIcon">🔇</span> purr
+    </div>
 
-        <circle cx="185" cy="70" r="7"/>
-        <circle cx="195" cy="65" r="4"/>
-        <circle cx="175" cy="60" r="5"/>
-        <circle cx="165" cy="80" r="6"/>
+    <div class="menu-btn" id="menuBtn">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
 
-        <circle cx="55" cy="75" r="6"/>
-        <circle cx="45" cy="70" r="4"/>
-        <circle cx="65" cy="65" r="5"/>
+    <nav class="side-nav" id="sideNav">
+        <a href="#">Home</a>
+        <a href="#">Artstuff</a>
+        <a href="#">Reflections</a>
+        <a href="#">Contact</a>
+    </nav>
 
-        <circle cx="140" cy="60" r="8"/>
-        <circle cx="130" cy="50" r="5"/>
-        <circle cx="150" cy="55" r="4"/>
-        <circle cx="165" cy="50" r="6"/>
-        <circle cx="175" cy="45" r="3"/>
-      </g>
-    </svg>
-  </div>
+    <div class="stage">
+        <div class="cat-aura" id="aura"></div>
+        <img src="zen_cat_lineart.png" alt="Zen Cat" class="main-cat" id="zenCat">
+        
+        <div class="ui-overlay">
+            <h1>meowsits</h1>
+            <div class="quote-container">
+                <p class="quote" id="quoteText">"The mist arrives without a sound."</p>
+            </div>
+        </div>
+    </div>
 
-  <div class="guide-section">
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="cat-sitting-small">
-      <circle cx="100" cy="70" r="35" fill="none" stroke="currentColor" stroke-width="3"/>
-      <path d="M 72 48 L 65 15 L 90 40 M 128 48 L 135 15 L 110 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M 80 68 Q 88 75 95 68 M 105 68 Q 112 75 120 68" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M 98 80 L 102 80 L 100 83 Z" fill="currentColor"/>
-      <path d="M 100 83 Q 95 88 90 85 M 100 83 Q 105 88 110 85" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M 60 70 L 40 65 M 60 75 L 35 75 M 60 80 L 40 85 M 140 70 L 160 65 M 140 75 L 165 75 M 140 80 L 160 85" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M 80 102 C 50 115 35 155 50 165 C 65 175 135 175 150 165 C 165 155 150 115 120 102" fill="none" stroke="currentColor" stroke-width="3"/>
-      <path d="M 75 100 L 100 135 L 125 100 M 90 120 L 110 145" fill="none" stroke="currentColor" stroke-width="2.5"/>
-      <path d="M 85 102 C 75 130 95 145 100 145 C 105 145 125 130 115 102" fill="none" stroke="currentColor" stroke-width="2.5"/>
-      <path d="M 100 145 Q 90 165 100 175 Q 110 165 100 145" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
-      <path d="M 100 175 L 97 185 M 100 175 L 100 187 M 100 175 L 103 185" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <ellipse cx="100" cy="172" rx="60" ry="8" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-    </svg>
-    
-    <div class="instructions">Match your breath to the growing blossoms.<br>Tap anywhere for guidance.</div>
-  </div>
-  
-  <div class="quote-box" id="quoteDisplay">"The peaceful observer misses nothing."</div>
+    <script>
+        // 1. Audio Toggle Logic
+        const audioBtn = document.getElementById('audioBtn');
+        const audioIcon = document.getElementById('audioIcon');
+        const purrAudio = document.getElementById('purrAudio');
+        let isPlaying = false;
 
-  <script>
-    const quotes = [
-      "Breathe in the calm, exhale the hairballs.",
-      "Find your sunbeam and rest deeply within it.",
-      "Notice the stillness that exists between the purrs.",
-      "Like a seedling reaching for the light, your mindfulness grows.",
-      "You are a quiet garden. Tend to yourself with patience.",
-      "Even the fiercest tiger must pause to wash its paws.",
-      "Let your worries drift away like a laser pointer on the wall.",
-      "Stretch your body fully, then let everything go.",
-      "You do not need to catch every mouse you see.",
-      "The peaceful observer misses nothing."
-    ];
+        audioBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                purrAudio.pause();
+                audioIcon.innerText = '🔇';
+            } else {
+                purrAudio.play();
+                audioIcon.innerText = '🔊';
+            }
+            isPlaying = !isPlaying;
+        });
 
-    const mainInteractive = document.getElementById('mainInteractive');
-    const treeBlossoms = document.getElementById('treeBlossoms');
-    const quoteDisplay = document.getElementById('quoteDisplay');
+        // 2. Hover-Triggered Menu (with Click Fallback)
+        const sideNav = document.getElementById('sideNav');
+        const menuBtn = document.getElementById('menuBtn');
+        
+        // Open on hover near the right edge
+        document.addEventListener('mousemove', (e) => {
+            if (e.clientX > window.innerWidth - 60) {
+                sideNav.classList.add('active');
+            }
+            if (e.clientX < window.innerWidth - 320) {
+                sideNav.classList.remove('active');
+            }
+        });
 
-    // Clicking anywhere on the screen triggers the interaction
-    mainInteractive.addEventListener('click', () => {
-      // Temporarily pause the breathing and "flash" scale the blossoms
-      treeBlossoms.style.animation = 'none';
-      treeBlossoms.style.transform = 'scale(1.3)';
-      treeBlossoms.style.opacity = '1';
-      
-      // Resume the slow breathing cycle after a moment
-      setTimeout(() => {
-          treeBlossoms.style.animation = 'blossomBreathe 8s infinite ease-in-out';
-      }, 600);
+        // Open on explicit click (great for mobile/tablets)
+        menuBtn.addEventListener('click', () => {
+            sideNav.classList.add('active');
+        });
 
-      // Change the Quote
-      quoteDisplay.style.opacity = 0;
-      
-      setTimeout(() => {
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        quoteDisplay.textContent = `"${randomQuote}"`;
-        quoteDisplay.style.opacity = 0.9;
-      }, 600); 
-    });
-  </script>
+        // Close menu on mobile if clicking outside
+        document.addEventListener('click', (e) => {
+            if (!sideNav.contains(e.target) && !menuBtn.contains(e.target) && sideNav.classList.contains('active')) {
+                sideNav.classList.remove('active');
+            }
+        });
 
+        // 3. Proximity Interaction (Aura & Mist)
+        const aura = document.getElementById('aura');
+        const zenCat = document.getElementById('zenCat');
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = zenCat.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const distance = Math.sqrt(
+                Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
+            );
+
+            // Aura expands and brightens as you get closer
+            const intensity = Math.max(0.2, 1 - (distance / 600));
+            aura.style.opacity = intensity * 0.6;
+            aura.style.transform = `scale(${1 + intensity * 0.5})`;
+        });
+
+        // 4. Auto-Cycling Quotes
+        const quotes = [
+            "In the stillness, the purr becomes the universe.",
+            "Don't seek the sun; become the sunbeam.",
+            "The center is wherever you sit.",
+            "A cat does not chase the fog; it waits for the sun.",
+            "Your breath is the only bridge you need.",
+            "The mountain does not move for the wind.",
+            "Just sitting, doing nothing, the grass grows by itself.",
+            "Wash your paws, then wash your mind.",
+            "The empty bowl is already full.",
+            "Chasing the laser is not catching the laser.",
+            "Sleep when tired, eat when hungry, purr when content.",
+            "Listen to the sound of one paw batting.",
+            "To understand the mouse, one must not be the cat, but the silence.",
+            "No mind, just meow."
+        ];
+
+        let quoteIndex = 0;
+        const quoteText = document.getElementById('quoteText');
+
+        function rotateQuotes() {
+            quoteText.classList.remove('visible');
+            setTimeout(() => {
+                quoteIndex = (quoteIndex + 1) % quotes.length;
+                quoteText.innerText = `"${quotes[quoteIndex]}"`;
+                quoteText.classList.add('visible');
+            }, 1500); 
+        }
+
+        // Initialize Quotes
+        quoteText.classList.add('visible');
+        setInterval(rotateQuotes, 8000);
+
+    </script>
 </body>
 </html>
