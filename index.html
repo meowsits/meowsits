@@ -117,6 +117,24 @@
         
         .side-nav.active { right: 0; }
         
+        /* The New Close "X" Button */
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 2rem;
+            font-weight: 200;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            user-select: none;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
         .side-nav a {
             text-decoration: none;
             color: var(--text-color);
@@ -198,10 +216,11 @@
     </div>
 
     <nav class="side-nav" id="sideNav">
+        <div class="close-btn" id="closeBtn">&times;</div>
+        
         <a href="#">Home</a>
-        <a href="https://meowsits.github.io/koi-river/">Koi-River</a>
-        <a href="#">Reflections</a>
-        <a href="#">Contact</a>
+        <a href="https://meowsits.github.io/koi-river/">Koi River</a>
+        <a href="#">More to come</a>
     </nav>
 
     <div class="stage">
@@ -234,11 +253,12 @@
             isPlaying = !isPlaying;
         });
 
-        // 2. Hover-Triggered Menu (with Click Fallback)
+        // 2. Hover-Triggered Menu (with Click Fallback & Close Button)
         const sideNav = document.getElementById('sideNav');
         const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
         
-        // Open on hover near the right edge
+        // Open on hover near the right edge (Desktop)
         document.addEventListener('mousemove', (e) => {
             if (e.clientX > window.innerWidth - 60) {
                 sideNav.classList.add('active');
@@ -248,9 +268,14 @@
             }
         });
 
-        // Open on explicit click (great for mobile/tablets)
+        // Open on explicit click (Mobile)
         menuBtn.addEventListener('click', () => {
             sideNav.classList.add('active');
+        });
+
+        // Close on explicit "X" click (Mobile)
+        closeBtn.addEventListener('click', () => {
+            sideNav.classList.remove('active');
         });
 
         // Close menu on mobile if clicking outside
